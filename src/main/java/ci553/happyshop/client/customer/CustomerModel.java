@@ -64,7 +64,15 @@ public class CustomerModel {
 
     void addToTrolley(){
         if(theProduct!= null){
-
+           for (Product p : trolley) {
+               if (p.getProductId().equals(theProduct.getProductId())) {
+                  p.setOrderedQuantity(p.getOrderedQuantity() + 1);
+                  displayTaTrolley =    ProductListFormatter.buildString(trolley);
+                  displayTaReceipt = "";
+                  updateView();
+                  return;
+               }
+           }
             // trolley.add(theProduct) — Product is appended to the end of the trolley.
             // To keep the trolley organized, add code here or call a method that:
             //TODO
