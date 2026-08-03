@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Collections;
 
 /**
  * TODO
@@ -79,6 +80,7 @@ public class CustomerModel {
             // 1. Merges items with the same product ID (combining their quantities).
             // 2. Sorts the products in the trolley by product ID.
             trolley.add(theProduct);
+            Collections.sort(trolley);
             displayTaTrolley = ProductListFormatter.buildString(trolley); //build a String for trolley so that we can show it
         }
         else{
