@@ -40,7 +40,7 @@ public class CustomerModel {
         String productId = cusView.tfId.getText().trim();
         if(!productId.isEmpty()){
             theProduct = databaseRW.searchProduct(productId).get(0); //search database
-            if(theProduct != null && theProduct.getStockQuantity()>0){
+            if(theProduct != null) {
                 double unitPrice = theProduct.getUnitPrice();
                 String description = theProduct.getProductDescription();
                 int stock = theProduct.getStockQuantity();
@@ -123,7 +123,22 @@ public class CustomerModel {
                             .append(p.getStockQuantity()).append(" available, ")
                             .append(p.getOrderedQuantity()).append(" requested)\n");
                 }
+
                 theProduct=null;
+
+                for (Product empty : insufficientProducts) {
+                    for (int stock = 0; stock < trolley.size(); stock = stock + 1 ) {
+                        if (trolley.get(stock).getProductId().equals(empty.getProductId())) {
+                            trolley.remove(stock);
+                            stock--;
+                        }
+                    }
+                }
+                displayTaTrolley = trolley.toString();
+                displayLaSearchResult = errorMsg.toString();
+
+
+
 
                 //TODO
                 // Add the following logic here:
@@ -157,6 +172,7 @@ public class CustomerModel {
                 // Make a shallow copy to avoid modifying the original
                 grouped.put(id,new Product(p.getProductId(),p.getProductDescription(),
                         p.getProductImageName(),p.getUnitPrice(),p.getStockQuantity()));
+                grouped.get(id).setOrderedQuantity(p.getOrderedQuantity());
             }
         }
         return new ArrayList<>(grouped.values());
